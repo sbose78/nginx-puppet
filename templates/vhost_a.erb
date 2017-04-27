@@ -1,0 +1,7 @@
+server {
+  listen 80;
+  server_name <%= @vhost_domain_a %>;
+ 
+  access_log /var/log/nginx/<%= @vhost_domain_a %>-access_log;
+  root <%= @vhost_root_a %>;
+}
