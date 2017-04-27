@@ -61,4 +61,10 @@ class nginx::vhost($domain='UNSET',$root='UNSET') {
             mode    => '755',
   }
  
+  file{"/etc/hosts" :
+   	    content => template('nginx/hosts.erb'),
+	    owner => 'root',
+	    group => 'root' ,       
+            mode    => '644',
+  }
 }
