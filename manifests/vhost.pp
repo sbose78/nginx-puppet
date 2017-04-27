@@ -83,36 +83,36 @@ $vhost_domain_a = "$name"
   file {  ["$vhost_root/index.html"]:
             owner   => 'ubuntu',
             group   => 'ubuntu',
-            source => "puppet:///modules/nginx/index-html", # index.html was dropped under nginx/files/
+            source => "puppet:///modules/nginx/${vhost_domain}/index-html", # index.html was dropped under nginx/files/
             mode    => '755',
   }->
   file {  ["$vhost_root/about.html"]:
             owner   => 'ubuntu',
             group   => 'ubuntu',
-            source => "puppet:///modules/nginx/about-html", # index.html was dropped under nginx/files/
+            source => "puppet:///modules/nginx/${vhost_domain}/about-html", # index.html was dropped under nginx/files/
             mode    => '755',
   }->
   file { ["$vhost_root/downtime.html"]:
             owner   => 'ubuntu',
             group   => 'ubuntu',
-            source => "puppet:///modules/nginx/downtime-html", # index.html was dropped under nginx/files/
+            source => "puppet:///modules/nginx/${vhost_domain}/downtime-html", # index.html was dropped under nginx/files/
             mode    => '755',
   }->file {  ["$vhost_root_a/index.html"]:
             owner   => 'ubuntu',
             group   => 'ubuntu',
-            source => "puppet:///modules/nginx/index-html", # index.html was dropped under nginx/files/
+            source => "puppet:///modules/nginx/${vhost_domain_a}/index-html", # index.html was dropped under nginx/files/
             mode    => '755',
   }->
   file {  ["$vhost_root_a/about.html"]:
             owner   => 'ubuntu',
             group   => 'ubuntu',
-            source => "puppet:///modules/nginx/about-html", # index.html was dropped under nginx/files/
+            source => "puppet:///modules/nginx/${vhost_domain_a}/about-html", # index.html was dropped under nginx/files/
             mode    => '755',
   }->
   file { ["$vhost_root_a/downtime.html"]:
             owner   => 'ubuntu',
             group   => 'ubuntu',
-            source => "puppet:///modules/nginx/downtime-html", # index.html was dropped under nginx/files/
+            source => "puppet:///modules/nginx/${vhost_domain_a}/downtime-html", # index.html was dropped under nginx/files/
             mode    => '755',
   }
  
