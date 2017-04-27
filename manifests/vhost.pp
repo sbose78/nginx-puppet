@@ -13,19 +13,19 @@ class nginx::vhost($domain='UNSET',$root='UNSET') {
     $vhost_domain = "$name.next"
 $vhost_domain_a = "$name"
   } else {
-    $vhost_domain = "$domain"
- $vhost_domain_a = "$domain.next"
+	 $vhost_domain = "$domain.next"
+	 $vhost_domain_a = "$domain"
   }
 
 
 
 
   if $root == 'UNSET' {
-    $vhost_root = "$default_parent_root/${name}.next"
-$vhost_root_a = "$default_parent_root/${name}"
+    	$vhost_root = "$default_parent_root/${name}.next"
+	$vhost_root_a = "$default_parent_root/${name}"
   } else {
-    $vhost_root = "$root.next"
-  $vhost_root_a = "$root"
+    	$vhost_root = "$root.next"
+  	$vhost_root_a = "$root"
   }
  
  
