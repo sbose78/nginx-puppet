@@ -11,7 +11,10 @@ class nginx::serverinfo{
         metric => $::kernelrelease,
         description => "kernel release"
   },
-
+  {
+	metric => $::users,
+	description => "Current user"
+  }
  ]
 
 }
