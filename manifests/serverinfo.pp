@@ -1,6 +1,6 @@
 class nginx::serverinfo{
 
-	
+ $domain_used=hiera('domain_usage')
 
  $serverinfodata = [
   {
@@ -14,7 +14,12 @@ class nginx::serverinfo{
   {
 	metric => $::users,
 	description => "Current user"
-  }
+  },
+  {
+	metric => "$domain_used" ,
+	description => 'allowed hosts'
+
+  },
  ]
 
 }
