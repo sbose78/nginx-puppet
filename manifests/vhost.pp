@@ -1,10 +1,21 @@
 # Manage an Nginx virtual host
-class nginx::vhost($domain='UNSET',$root='UNSET') {
+#class  nginx::vhost($domain='UNSET',$root='UNSET') {
+
+class  nginx::vhost {
+
+ $default_parent_root = "/home/ubuntu/nginxsites-puppet"
+ $dir_tree = [ "$default_parent_root"]
+ file { $dir_tree :
+          owner   => 'ubuntu',
+          group   => 'ubuntu',
+          ensure  => 'directory',
+         mode    => '777',
+  }
+
+
+ define apply( $domain="UNSET",$root="UNSET"){  
  
   include nginx  # Class was declared inside init.pp
- 
-  $default_parent_root = "/home/ubuntu/nginxsites-puppet"
- 
  
   # Default value overrides
  
@@ -38,27 +49,55 @@ class nginx::vhost($domain='UNSET',$root='UNSET') {
     notify  => Exec['reload nginx'],
   }
  
- 
+  addStaticFiles{ "staticfiles-${vhost_root}":
+	default_parent_root =>  $default_parent_root, 
+	vhost_root => $vhost_root,
+	vhost_domain => $vhost_domain 
+  } 
   # Creating the directory structure for the site directory
   # The array stores the directories to be created.
   # Puppet does not support a "mkdir -p " struct.
   # Hence, directories and subdirectories need to be
   # (painfully) defined in the puppet manifest, as below.
  
-  $dir_tree = [ "$default_parent_root", "$vhost_root" ,
-  ]
- file { $dir_tree :
-          owner   => 'ubuntu',
-          group   => 'ubuntu',
-          ensure  => 'directory',
-          mode    => '777',
-  }
-  ->   # This arrow ensures that the dir structure is created first.
-  file {  ["$vhost_root/index.html"]:
-            owner   => 'ubuntu',
-            group   => 'ubuntu',
-            source => "puppet:///modules/nginx/index-html", # index.html was dropped under nginx/files/
-            mode    => '755',
-  }
+  #$dir_tree = [ "$default_parent_root", "$vhost_root" ,
+  #]
+# file { $dir_tree :
+ #         owner   => 'ubuntu',
+ #         group   => 'ubuntu',
+ #         ensure  => 'directory',
+ #         mode    => '777',
+ # }
+ # ->   # This arrow ensures that the dir structure is created first.
+ # file {  ["$vhost_root/index.html"]:
+ #           owner   => 'ubuntu',
+ #           group   => 'ubuntu',
+ #           source => "puppet:///modules/nginx/index-html", # index.html was dropped under nginx/files/
+ #           mode    => '755',
+  #}
+ }
  
+ define addStaticFiles( $default_parent_root, $vhost_root , $vhost_domain ){
+
+	# Creating the directory structure for the site directory
+	# The array stores the directories to be created.
+	# Puppet does not support a "mkdir -p " struct.
+	# Hence, directories and subdirectories need to be
+	# (painfully) defined in the puppet manifest, as below.
+
+ 	 $dir_tree = [ "$vhost_root" ]
+	 file { $dir_tree :
+        	  owner   => 'ubuntu',
+	          group   => 'ubuntu',
+	          ensure  => 'directory',
+	          mode    => '777',
+ 	  }
+	  ->   # This arrow ensures that the dir structure is created first.
+	  file {  ["$vhost_root/index.html"]:
+       	     owner   => 'ubuntu',
+	            group   => 'ubuntu',
+	            source => "puppet:///modules/nginx/${vhost_domain}/index-html", # index.html was dropped under nginx/files/
+        	    mode    => '755',
+	  }
+   }
 }
